@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "*.ts,*.js",
+  "ignore": [],
+  "exec": "NODE_ENV=development node --es-module-specifier-resolution=node --loader ts-node/esm src/index.ts"
+}
