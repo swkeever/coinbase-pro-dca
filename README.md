@@ -33,7 +33,7 @@ Create the following files (ignored by Git).
 Copy the template in `.env.example` to these files and visit [Coinbase Pro's documentation](https://docs.pro.coinbase.com/)
 to learn how to fill in the required env variables.
 
-Upload each environment variable as a encrypted secret in GitHub
+Upload each environment variable as an encrypted secret in GitHub
 so they can be used by the GitHub Action.
 
 ## Scripts
