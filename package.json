@@ -1,8 +1,8 @@
 {
   "name": "coinbase-pro-dca",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A dollar cost averaging tool for Coinbase Pro",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon",
@@ -12,20 +12,28 @@
     "cron:disable": "rm -rf .github",
     "lint": "eslint . --ext .ts --ignore-path .gitignore --cache --fix",
     "format": "prettier 'src/**/*.ts' --write --ignore-path .gitignore",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/swkeever/coinbase-pro-dca.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Coinbase Pro",
+    "Crypto",
+    "Investing"
+  ],
+  "author": "Sean Keever",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/swkeever/coinbase-pro-dca/issues"
   },
   "homepage": "https://github.com/swkeever/coinbase-pro-dca#readme",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "coinbase-pro-node": "^3.0.7",
+    "dotenv": "^10.0.0"
+  },
   "devDependencies": {
     "@types/node": "^16.9.1",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
@@ -53,10 +61,5 @@
       "npm run lint",
       "npm run format"
     ]
-  },
-  "dependencies": {
-    "axios": "^0.21.4",
-    "coinbase-pro-node": "^3.0.7",
-    "dotenv": "^10.0.0"
   }
 }
