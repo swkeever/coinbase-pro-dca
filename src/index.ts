@@ -1,1 +1,3 @@
-console.log('hello world');
+import {purchaseCrypto} from './purchase';
+
+await purchaseCrypto();

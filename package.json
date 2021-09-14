@@ -6,6 +6,10 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon",
+    "build": "rm -rf ./build && tsc",
+    "purchase": "npm run build && NODE_ENV=production node --es-module-specifier-resolution=node build/index.js",
+    "cron:enable": "mv purchase.yml .github/workflows/purchase.yml",
+    "cron:disable": "mv .github/workflows/purchase.yml purchase.yml",
     "lint": "eslint . --ext .ts --ignore-path .gitignore --cache --fix",
     "format": "prettier 'src/**/*.ts' --write --ignore-path .gitignore",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -41,12 +45,18 @@
     "semi": true,
     "trailingComma": "all",
     "singleQuote": true,
-    "printWidth": 80
+    "printWidth": 80,
+    "bracketSpacing": false
   },
   "lint-staged": {
     "*.ts": [
       "npm run lint",
       "npm run format"
     ]
+  },
+  "dependencies": {
+    "axios": "^0.21.4",
+    "coinbase-pro-node": "^3.0.7",
+    "dotenv": "^10.0.0"
   }
 }
