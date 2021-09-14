@@ -79,4 +79,4 @@ sure to push the change so that it will take effect.
 Update `src/coin.config.ts` to set your preferred crypto
 allocation.
 
-Update the cron schedule in `purchase.yml` workflow.
+Update the cron schedule in `cron.yml` workflow.
