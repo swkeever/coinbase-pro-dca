@@ -1,3 +1,4 @@
 import {purchaseCrypto} from './purchase';
 
-await purchaseCrypto();
+const {message} = await purchaseCrypto();
+console.info(message);
