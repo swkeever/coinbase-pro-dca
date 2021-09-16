@@ -3,7 +3,6 @@
 ## Disclaimer
 
 This software is offered "as is" and comes without warranty.
-
 This software and information about this software is for entertainment
 and educational purposes only. This is not investment advice.
 **Use this software at your own risk.**
