@@ -1,12 +1,5 @@
 # coinbase-pro-dca
 
-## Donate
-
-Donations are much appreciated! 💙
-
-- [Donate with Crypto](https://commerce.coinbase.com/checkout/6ba511ce-e8e4-40a9-a251-51ea77852c54)
-- [Donate with PayPal](https://www.paypal.com/donate?hosted_button_id=KU56HE97DW9KU)
-
 ## Disclaimer
 
 This software is offered "as is" and comes without warranty.
@@ -80,3 +73,10 @@ Update `src/coin.config.ts` to set your preferred crypto
 allocation.
 
 Update the cron schedule in `cron.yml` workflow.
+
+## Donate
+
+Donations are much appreciated! 💙
+
+- [Donate with Crypto](https://commerce.coinbase.com/checkout/6ba511ce-e8e4-40a9-a251-51ea77852c54)
+- [Donate with PayPal](https://www.paypal.com/donate?hosted_button_id=KU56HE97DW9KU)
