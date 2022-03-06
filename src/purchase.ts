@@ -1,26 +1,25 @@
-import {CoinbaseCurrency, coins} from './coin.config';
 import {AppResult, AppState, panic, sleep} from './util';
-import {coinbaseClient} from './client';
 import axios from 'axios';
 import {OrderSide, OrderType} from 'coinbase-pro-node';
+import {Strategy} from './strategy';
+import {coinbaseClient} from './env';
 
-async function marketBuy(coin: CoinbaseCurrency) {
+async function marketBuy(coin: Strategy) {
   try {
     const order = await coinbaseClient.order.placeOrder({
       type: OrderType.MARKET,
       side: OrderSide.BUY,
-      funds: coin.funds,
-      product_id: coin.productId,
+      funds: coin.amountToBuy.toString(),
+      product_id: coin.tradingPair,
     });
     await sleep(1000);
-    return `✅ Order(${order.id}) - Purchased ${coin.funds} of ${order.product_id}`;
+    return `✅ bought ${order.product_id}`;
   } catch (err: unknown) {
     const message = axios.isAxiosError(err)
       ? err?.response?.data.message
       : err instanceof Error
       ? err.message
       : 'unknown error occurred';
-
     const data: AppResult = {
       state: AppState.BUY_FAILURE,
       message,
@@ -33,10 +32,12 @@ async function marketBuy(coin: CoinbaseCurrency) {
   }
 }
 
-export async function purchaseCrypto(): Promise<AppResult> {
+export async function purchaseCrypto(
+  strategies: Strategy[],
+): Promise<AppResult> {
   const orders: string[] = [];
-  for (const coin of coins) {
-    orders.push(await marketBuy(coin));
+  for (const strategy of strategies) {
+    orders.push(await marketBuy(strategy));
   }
   return {
     state: AppState.SUCCESS,

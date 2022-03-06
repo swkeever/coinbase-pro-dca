@@ -2,6 +2,8 @@ export enum AppState {
   SUCCESS,
   INVALID_ENV,
   BUY_FAILURE,
+  COIN_MARKET_CAP_API_FAILURE,
+  COINBASE_API_FAILURE,
 }
 
 export interface AppResult {
