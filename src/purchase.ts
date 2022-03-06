@@ -1,10 +1,10 @@
-import {AppResult, AppState, panic, sleep} from './util';
+import {AppResult, AppState, logError, panic, sleep} from './util';
 import axios from 'axios';
 import {OrderSide, OrderType} from 'coinbase-pro-node';
-import {Strategy} from './strategy';
+import {OrderData} from './order';
 import {coinbaseClient} from './env';
 
-async function marketBuy(coin: Strategy) {
+async function marketBuy(coin: OrderData) {
   try {
     const order = await coinbaseClient.order.placeOrder({
       type: OrderType.MARKET,
@@ -15,32 +15,23 @@ async function marketBuy(coin: Strategy) {
     await sleep(1000);
     return `✅ bought ${order.product_id}`;
   } catch (err: unknown) {
-    const message = axios.isAxiosError(err)
-      ? err?.response?.data.message
-      : err instanceof Error
-      ? err.message
-      : 'unknown error occurred';
+    logError(err);
     const data: AppResult = {
       state: AppState.BUY_FAILURE,
-      message,
+      message: `failed to place order`,
     };
     panic(data);
-
-    // impossible to reach here
-    // this is to satisfy the typescript compiler
-    return message;
+    return '💩';
   }
 }
 
-export async function purchaseCrypto(
-  strategies: Strategy[],
-): Promise<AppResult> {
-  const orders: string[] = [];
-  for (const strategy of strategies) {
-    orders.push(await marketBuy(strategy));
+export async function purchaseCrypto(orders: OrderData[]): Promise<AppResult> {
+  const fulfilledOrders: string[] = [];
+  for (const order of orders) {
+    fulfilledOrders.push(await marketBuy(order));
   }
   return {
     state: AppState.SUCCESS,
-    message: orders.join('\n'),
+    message: fulfilledOrders.join('\n'),
   };
 }

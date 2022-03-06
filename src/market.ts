@@ -1,5 +1,5 @@
-import axios, {AxiosError} from 'axios';
-import {AppState, panic} from './util';
+import axios from 'axios';
+import {AppState, logError, panic} from './util';
 import {Account} from 'coinbase-pro-node';
 import assert from 'assert';
 import {
@@ -19,7 +19,7 @@ type MarketDataInternal = Omit<MarketData, 'desiredBalanceUSD'> & {
   marketCap: number;
 };
 
-// gets a set like ['BTC-USD', 'ETH-USD', ...]
+// gets a set like ['BTC', 'ETH', ...]
 async function getCoinbaseProducts(): Promise<Set<string>> {
   try {
     const products = await coinbaseClient.product.getProducts();
@@ -58,12 +58,7 @@ async function getCoinbaseAccounts(): Promise<Map<string, Account>> {
     }
     return map;
   } catch (err) {
-    if (err instanceof Error) {
-      console.error(err.message);
-    } else {
-      const e = err as AxiosError;
-      console.error(e.response?.data);
-    }
+    logError(err);
     panic({
       message: 'Failed to get Coinbase accounts',
       state: AppState.COINBASE_API_FAILURE,
@@ -104,6 +99,7 @@ export async function getMarketData(): Promise<MarketData[]> {
       res.data.data
 
         // only interested in things we can buy in USD
+        // and things we can buy in Coinbase
         .filter((data) => {
           return (
             Boolean(data.quote?.USD?.market_cap) &&
@@ -151,13 +147,7 @@ export async function getMarketData(): Promise<MarketData[]> {
         .filter((data) => data.currentBalanceUSD < data.desiredBalanceUSD)
     );
   } catch (err: unknown) {
-    if (err instanceof Error) {
-      console.error(err.message);
-    } else {
-      const e = err as AxiosError;
-      console.error(e.response?.data);
-    }
-
+    logError(err);
     panic({
       state: AppState.COIN_MARKET_CAP_API_FAILURE,
       message: 'Failed to get market data',

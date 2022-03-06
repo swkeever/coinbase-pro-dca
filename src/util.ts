@@ -1,3 +1,5 @@
+import axios, {AxiosError} from 'axios';
+
 export enum AppState {
   SUCCESS,
   INVALID_ENV,
@@ -18,4 +20,15 @@ export function panic({state, message}: AppResult): void {
 
 export function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function logError(err: unknown) {
+  if (err instanceof Error) {
+    console.error(err.message);
+  } else if (axios.isAxiosError(err)) {
+    const e = err as AxiosError;
+    console.error(e.response?.data);
+  } else {
+    console.error('unknown error occurred');
+  }
 }

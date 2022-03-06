@@ -3,14 +3,14 @@ import {Heap} from 'heap-js';
 import assert from 'assert';
 import {dcaAmount} from './env';
 
-export interface Strategy {
+export interface OrderData {
   tradingPair: string;
   amountToBuy: number;
 }
 
-export async function getStrategy(
+export async function getOrders(
   marketData: MarketData[],
-): Promise<Strategy[]> {
+): Promise<OrderData[]> {
   // build a heap with coins with the biggest delta from the desired state
   const heap = Heap.heapify(marketData, (x, y) => {
     const dx = x.desiredBalanceUSD - x.currentBalanceUSD;
@@ -39,10 +39,6 @@ export async function getStrategy(
     }
 
     if (!cryptoToBuy.has(data.tradingPair)) {
-      // edge case: we don't have enough money to buy this coin
-      if (amountLeft < 5) {
-        break;
-      }
       cryptoToBuy.set(data.tradingPair, 5);
       data.currentBalanceUSD += 5;
       amountLeft -= 5;
@@ -53,18 +49,19 @@ export async function getStrategy(
       cryptoToBuy.set(data.tradingPair, amt + 1);
       amountLeft -= 1;
     }
+
     if (data.currentBalanceUSD < data.desiredBalanceUSD) {
       heap.push(data);
     }
   }
 
-  const strategies: Strategy[] = [];
+  const orders: OrderData[] = [];
   for (const [symbol, amount] of cryptoToBuy.entries()) {
-    strategies.push({
+    orders.push({
       tradingPair: symbol,
       amountToBuy: amount,
     });
   }
 
-  return strategies;
+  return orders;
 }

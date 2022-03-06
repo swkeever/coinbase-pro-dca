@@ -1,8 +1,8 @@
 import {purchaseCrypto} from './purchase';
 import {getMarketData} from './market';
-import {getStrategy} from './strategy';
+import {getOrders} from './order';
 
 const marketData = await getMarketData();
-const strategies = await getStrategy(marketData);
-const {message} = await purchaseCrypto(strategies);
+const orders = await getOrders(marketData);
+const {message} = await purchaseCrypto(orders);
 console.info(message);
