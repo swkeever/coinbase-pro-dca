@@ -144,6 +144,7 @@ export async function getMarketData(): Promise<MarketData[]> {
           };
         })
 
+        // ignore corns that exceed the desired balance
         .filter((data) => data.currentBalanceUSD < data.desiredBalanceUSD)
     );
   } catch (err: unknown) {
