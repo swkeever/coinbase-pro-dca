@@ -112,12 +112,12 @@ export async function getMarketData(): Promise<MarketData[]> {
         // sort by market cap
         .sort((a, b) => b.quote.USD.market_cap - a.quote.USD.market_cap)
 
-        // only get the top 15 cryptocurrencies
-        .slice(0, 15)
+        // only get the top cryptocurrencies
+        .slice(0, 10)
 
         // get data we care about
         .map((data): MarketDataInternal => {
-          const marketCap = data.quote.USD.market_cap;
+          const marketCap = Math.sqrt(data.quote.USD.market_cap);
           const account = accounts.get(data.symbol);
           assert(account != null);
           const amtOutsideCoinbase = coinsOutsideCoinbase.get(data.symbol) ?? 0;
@@ -136,15 +136,16 @@ export async function getMarketData(): Promise<MarketData[]> {
         // get the percent of total market cap
         .map((data): MarketData => {
           const pctTotalMarket = data.marketCap / totalMarketCapUSD;
-          const desiredBalanceUSD = totalPortfolioAmountUSD * pctTotalMarket;
           return {
             tradingPair: data.tradingPair,
-            currentBalanceUSD: data.currentBalanceUSD,
-            desiredBalanceUSD,
+            currentBalanceUSD: Math.round(data.currentBalanceUSD),
+            desiredBalanceUSD: Math.round(
+              totalPortfolioAmountUSD * pctTotalMarket,
+            ),
           };
         })
 
-        // ignore corns that exceed the desired balance
+        // ignore coins that exceed the desired balance
         .filter((data) => data.currentBalanceUSD < data.desiredBalanceUSD)
     );
   } catch (err: unknown) {
