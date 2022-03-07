@@ -2,6 +2,7 @@ import {MarketData} from './market';
 import {Heap} from 'heap-js';
 import assert from 'assert';
 import {dcaAmount} from './env';
+import {MIN_CB_PURCHASE_AMT} from './util';
 
 export interface OrderData {
   tradingPair: string;
@@ -26,7 +27,7 @@ export async function getOrders(
 
     // make sure we have enough money to buy this coin
     while (
-      amountLeft < 5 &&
+      amountLeft < MIN_CB_PURCHASE_AMT &&
       !heap.isEmpty() &&
       data != null &&
       !cryptoToBuy.has(data.tradingPair)
@@ -39,9 +40,9 @@ export async function getOrders(
     }
 
     if (!cryptoToBuy.has(data.tradingPair)) {
-      cryptoToBuy.set(data.tradingPair, 5);
-      data.currentBalanceUSD += 5;
-      amountLeft -= 5;
+      cryptoToBuy.set(data.tradingPair, MIN_CB_PURCHASE_AMT);
+      data.currentBalanceUSD += MIN_CB_PURCHASE_AMT;
+      amountLeft -= MIN_CB_PURCHASE_AMT;
     } else {
       const amt = cryptoToBuy.get(data.tradingPair);
       assert(amt != null);

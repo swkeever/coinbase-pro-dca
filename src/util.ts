@@ -13,6 +13,8 @@ export interface AppResult {
   message: string;
 }
 
+export const MIN_CB_PURCHASE_AMT = 5;
+
 export function panic({state, message}: AppResult): void {
   console.error(`☠️ ${AppState[state]}: ${message}`);
   process.exit(state);

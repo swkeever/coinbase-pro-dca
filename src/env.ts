@@ -1,4 +1,4 @@
-import {AppResult, AppState, panic} from './util';
+import {AppResult, AppState, MIN_CB_PURCHASE_AMT, panic} from './util';
 import dotenv from 'dotenv';
 import {CoinbasePro} from 'coinbase-pro-node';
 
@@ -41,10 +41,10 @@ export const coinsOutsideCoinbase = new Map<string, number>(
 
 export const dcaAmount = Number.parseInt(process.env.DCA_AMOUNT as string, 10);
 
-if (dcaAmount < 5) {
+if (dcaAmount < MIN_CB_PURCHASE_AMT) {
   const result: AppResult = {
     state: AppState.INVALID_ENV,
-    message: `DCA_AMOUNT must be greater than 5`,
+    message: `DCA_AMOUNT must be greater than ${MIN_CB_PURCHASE_AMT}`,
   };
   panic(result);
 }
