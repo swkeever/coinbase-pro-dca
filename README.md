@@ -9,10 +9,14 @@ and educational purposes only. This is not investment advice.
 
 ## Context
 
-This software is a cron job that buys cryptocurrency using the Coinbase Pro API
-to enable a dollar-cost averaging investment strategy.
+This software is a cron job that buys an index of cryptocurrency
+based on market cap.
 
-For a detailed explanation on how this software is built,
+It uses 
+- Coinbase Pro API
+- CoinMarketCap API
+
+For a detailed explanation how [`v1`](https://github.com/swkeever/coinbase-pro-dca/tree/v1) is built,
 check out [building a tool for dollar cost averaging (DCA) in Coinbase Pro](https://www.swkeever.com/coinbase-pro-dca).
 
 ## Environment Setup
@@ -22,10 +26,9 @@ Create the following files (ignored by Git).
 - `.env.production` to run the script against your Coinbase Pro account.
 - `.env.development` if you plan to develop the script against the [Sandbox environment](https://public.sandbox.pro.coinbase.com/).
 
-Copy the template in `.env.example` to these files and visit [Coinbase Pro's documentation](https://docs.pro.coinbase.com/)
-to learn how to fill in the required env variables.
+Copy the template in `.env.example` to these files to get started.
 
-Upload each environment variable as an encrypted secret in GitHub
+Upload each environment variable as an encrypted secret in GitHub,
 so they can be used by the GitHub Action.
 
 ## Scripts
@@ -33,13 +36,13 @@ so they can be used by the GitHub Action.
 Install project dependencies.
 
 ```bash
-npm install
+yarn
 ```
 
 Run the app in development mode.
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 The following script will run the script with your prod credentials.
@@ -47,31 +50,24 @@ Remember, this is going to attempt to buy crypto with real money.
 **Proceed with caution.**
 
 ```bash
-npm run purchase
+yarn run purchase
 ```
 
 Enable the GitHub Action cron job. (Disabled by default when you first
 clone this repo)
 
 ```bash
-npm run cron:enable
+yarn run cron:enable
 ```
 
 Disable the GitHub Action cron job.
 
 ```bash
-npm run cron:disable
+yarn run cron:disable
 ```
 
 Once you enable or disable the cron job, make
 sure to push the change so that it will take effect.
-
-## Personalization 
-
-Update `src/coin.config.ts` to set your preferred crypto
-allocation.
-
-Update the cron schedule in `cron.yml` workflow.
 
 ## Donate
 
