@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon",
     "build": "rm -rf ./build && tsc",
-    "purchase": "npm run build && NODE_ENV=production node --es-module-specifier-resolution=node build/index.js",
+    "purchase": "yarn run build && NODE_ENV=production node --es-module-specifier-resolution=node build/index.js",
     "cron:enable": "mkdir -p .github/workflows; cp cron.yml .github/workflows/cron.yml",
     "cron:disable": "rm -rf .github",
     "lint": "eslint . --ext .ts --ignore-path .gitignore --cache --fix",
@@ -32,7 +32,8 @@
   "dependencies": {
     "axios": "^0.21.4",
     "coinbase-pro-node": "^3.0.7",
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "heap-js": "^2.1.6"
   },
   "devDependencies": {
     "@types/node": "^16.9.1",
@@ -60,8 +61,8 @@
   },
   "lint-staged": {
     "*.ts": [
-      "npm run lint",
-      "npm run format"
+      "yarn run lint",
+      "yarn run format"
     ]
   }
 }
