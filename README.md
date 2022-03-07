@@ -50,20 +50,20 @@ Remember, this is going to attempt to buy crypto with real money.
 **Proceed with caution.**
 
 ```bash
-yarn run purchase
+yarn purchase
 ```
 
 Enable the GitHub Action cron job. (Disabled by default when you first
 clone this repo)
 
 ```bash
-yarn run cron:enable
+yarn cron:enable
 ```
 
 Disable the GitHub Action cron job.
 
 ```bash
-yarn run cron:disable
+yarn cron:disable
 ```
 
 Once you enable or disable the cron job, make
