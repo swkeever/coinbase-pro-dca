@@ -8,13 +8,19 @@ jobs:
   buy-crypto:
     runs-on: ubuntu-latest
     env:
+      API_URL: "https://api.pro.coinbase.com"
       API_KEY: ${{ secrets.API_KEY }}
       API_SECRET: ${{ secrets.API_SECRET }}
       PASSPHRASE: ${{ secrets.PASSPHRASE }}
+      COIN_MARKET_CAP_URL: "https://pro-api.coinmarketcap.com"
+      COIN_MARKET_CAP_API_KEY: ${{ secrets.COIN_MARKET_CAP_API_KEY }}
+      COINS_OUTSIDE_CB: ${{ secrets.COINS_OUTSIDE_CB }}
+      DCA_AMOUNT: ${{ secrets.DCA_AMOUNT }}
+      COIN_BLACKLIST: ${{ secrets.COIN_BLACKLIST }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
-      - run: npm install
-      - run: npm run purchase
+          node-version: '16'
+      - run: yarn install
+      - run: yarn run purchase
